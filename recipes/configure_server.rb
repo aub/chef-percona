@@ -68,7 +68,7 @@ end
 
 # now let's set the root password only if this is the initial install
 execute "Update MySQL root password" do
-  command "mysqladmin --user=root --password='' password '#{passwords.root_password}'"
+  command "mysql -u root --password='' --execute=\"UPDATE mysql.user SET Password=PASSWORD('#{passwords.root_password}') WHERE User='root'; FLUSH PRIVILEGES;\""
   not_if "test -f /etc/mysql/grants.sql"
 end
 
